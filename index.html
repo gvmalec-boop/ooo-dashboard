@@ -1,163 +1,319 @@
 <!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ООО «ООО» — Операционная панель</title>
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1218">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Делегат">
+<title>Делегат — диспетчерская</title>
 <style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;color-scheme:dark;--bg:#0d1117;--panel:#161b22;--line:#30363d;--text:#e6edf3;--muted:#b1bac4;--good:#3fb950;--warn:#d29922;--bad:#f85149;--info:#58a6ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);min-height:100vh}.wrap{max-width:980px;margin:0 auto;padding:20px 16px 36px}
-header{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;margin-bottom:18px}h1{font-size:24px;margin:0 0 4px}.sub,.caption{color:var(--muted);font-size:13px}
-button{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px}.actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.mini{padding:6px 9px;font-size:12px}.disabled{opacity:.55}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#21262d;border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-size:13px;z-index:20;max-width:90vw}.schedule-main{min-width:0;flex:1}.schedule-title{font-weight:600;word-break:break-word}
-.banner{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;justify-content:space-between;gap:10px;align-items:center}.banner strong{font-size:17px}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px}.good{background:var(--good)}.warn{background:var(--warn)}.bad{background:var(--bad)}.info{background:var(--info)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px}.card h2{font-size:15px;margin:0 0 10px;color:var(--muted);font-weight:600}
-.big{font-size:21px;font-weight:700;margin:2px 0 8px}.meta{font-size:13px;color:var(--muted);line-height:1.5}.reason{margin-top:3px;color:var(--text);font-size:13px;line-height:1.4}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.stat{border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}
-.section{margin-top:14px}.section h2{font-size:15px;margin:0 0 8px;color:var(--muted)}.row{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--line);background:var(--panel);border-radius:10px;margin-bottom:7px;font-size:13px}.state{font-weight:700}
-footer{margin-top:16px;color:var(--muted);font-size:12px;text-align:center}@media(max-width:640px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}h1{font-size:21px}.wrap{padding-top:14px}.banner{align-items:flex-start}}
-.stage{overflow-wrap:anywhere}.card{min-width:0}.reason,.meta{overflow-wrap:anywhere}@media(max-width:640px){.row{flex-wrap:wrap}.actions{justify-content:flex-start}}
-.role-stack{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}.role-card{padding:10px 14px}.role-card h2{margin:0 0 4px}.role-status{font-size:16px;font-weight:600;line-height:1.35}.one-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;line-height:1.5}.role-detail summary{cursor:pointer;font-size:12px;color:var(--info);padding:4px 0;min-height:28px}.role-detail[open]{margin-top:6px}.role-detail pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;color:var(--muted)}summary:focus-visible{outline:2px solid var(--info);outline-offset:2px}@media(max-width:640px){.role-card{padding:9px 12px}.role-detail summary{min-height:32px}}
+:root{font-family:Segoe UI,Arial,sans-serif;color:#e9eef7;background:#0f1218}
+*{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;padding:18px;background:#0f1218;width:100%}h1{margin:0;font-size:24px}
+.sub{color:#8f9bad;font-size:13px;margin-top:4px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{background:#1b2230;border:1px solid #2b3648;border-radius:999px;padding:7px 11px;font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:#171c25;border:1px solid #2a3444;border-radius:14px;overflow:hidden}
+#agents{display:grid;width:100%;max-width:100%;min-width:0;grid-template-columns:31.5% 35% 31.5%;gap:1%;align-items:start}.agentCard{min-width:0;overflow:hidden}.agentCard[data-agent="tolik"]{grid-column:1;grid-row:1}.agentCard[data-agent="lenochka"]{grid-column:2;grid-row:1}.agentCard[data-agent="klavdia"]{grid-column:3;grid-row:1}.agentCard .status{font-size:20px;font-weight:700;line-height:1.25}.agentCard .current{padding:12px}.agentCard .now{margin-top:0;padding:8px 10px;font-size:14px}.next{margin-top:8px;line-height:1.4;font-size:14px}.facts{margin-top:10px;font-size:12px;color:#aab4c3;line-height:1.5;overflow-wrap:anywhere}.facts div+div{margin-top:6px}.agentCard summary{font-size:13px;color:#79aefc;padding:10px 12px}.agentCard .feed{max-height:180px}.agentExtra{border-top:1px solid #252e3d}.lenochkaTitleRow{display:flex;align-items:center;gap:18px;min-width:0}.lenochkaTitleRow .name{flex:0 0 auto}.lenochkaStrip{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;min-width:0}.miniIndicator{display:inline-block;position:relative}.miniIndicator summary{display:flex;align-items:center;gap:5px;padding:2px 4px!important;border-radius:6px}.miniIndicator summary:hover{background:#202735}.miniIndicator .arrow{width:auto;font-size:10px}.miniIndicator .miniText{font-weight:600}.miniIndicator .miniDetail{margin-top:6px;padding:8px 10px;border:1px solid #2a3444;border-radius:8px;background:#111722;color:#b9c3d1;min-width:270px;max-width:520px;font-size:12px;line-height:1.45}.miniIndicator .miniDetail div+div{margin-top:4px}
+.dutyWrap{padding:14px 16px}.dutyTop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.dutyName{font-weight:700;font-size:18px}.dutyState{font-size:12px;border-radius:999px;padding:4px 8px;background:#252b35;border:1px solid #394351}.dutyState.working{background:#173627;color:#86e3a8;border-color:#275b3d}.dutyState.error{background:#401d22;color:#ff9da6;border-color:#743039}.dutyFront{margin-top:8px;color:#9ec8ff;font-family:Consolas,monospace;font-size:12px}.dutyNow{margin-top:9px;font-size:14px;line-height:1.45}.dutyMeta{margin-top:8px;color:#8f9bad;font-size:12px;display:flex;gap:14px;flex-wrap:wrap}.cardHead{padding:15px 16px;border-bottom:1px solid #283242}.name{font-weight:700;font-size:20px}.status{font-size:13px;margin-top:4px}
+.work{color:#66d38b}.block{color:#ffb454}.wait{color:#aab4c3}.current{padding:12px 16px;background:#141922;border-bottom:1px solid #252e3d}
+.now{margin-top:10px;padding:10px 12px;border-left:4px solid #66d38b;background:#202b3c;font-weight:650;line-height:1.45;overflow-wrap:anywhere}.now .sub{font-weight:400}
+.id{font-family:Consolas,monospace;color:#8090a7;font-size:12px}.human{font-weight:650;margin-top:4px}.feed{padding:10px 16px;max-height:260px;overflow:auto}
+.evt{font-size:13px;padding:7px 0;border-bottom:1px solid #202735}.time{color:#7f8da2;margin-right:8px}.section{margin-top:14px}
+.sectionTitle{font-weight:700;font-size:17px;margin:0 0 8px 2px}.list{max-height:420px;overflow:auto}.item{border-bottom:1px solid #252e3c}.item:last-child{border-bottom:0}
+summary{cursor:pointer;list-style:none;padding:12px 14px}summary::-webkit-details-marker{display:none}.summaryLine{display:flex;gap:10px;align-items:center}
+.arrow{color:#6d7b90;width:12px}.titleWrap{flex:1}.state{font-size:12px;border-radius:999px;padding:4px 8px;background:#232c3a;border:1px solid transparent}.state-new{background:#182c4a;color:#9ec8ff;border-color:#274a78}.state-working{background:#173627;color:#86e3a8;border-color:#275b3d}.state-warn{background:#3a2c14;color:#ffd27a;border-color:#6a4d1b}.state-bad{background:#401d22;color:#ff9da6;border-color:#743039}.state-approved{background:#173627;color:#86e3a8;border-color:#275b3d}.state-candidate{background:#3a2c14;color:#ffd27a;border-color:#6a4d1b}.state-neutral{background:#252b35;color:#b9c3d1;border-color:#394351}
+.detail{padding:0 14px 13px 36px;color:#b9c3d1;font-size:13px;line-height:1.45}.detail .evt{padding:5px 0}.empty{padding:22px;color:#7f8da2;text-align:center}
+@media(max-width:760px){#agents{grid-template-columns:1fr}.agentCard[data-agent="lenochka"],.agentCard[data-agent="klavdia"],.agentCard[data-agent="tolik"]{grid-column:1}.grid{grid-template-columns:1fr}.top{align-items:flex-start;gap:12px;flex-direction:column}}
+.connectivityGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.connection{padding:12px;min-width:0;overflow-wrap:anywhere}.connection b{font-size:14px}.connection .status{font-weight:700;font-size:16px}.connection .facts{margin-top:8px}.connectionHeader{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.connectionEmbeddedHistory{margin-top:10px;padding-top:8px;border-top:1px solid #283242}.connectionEmbeddedHistory .feed{max-height:190px;padding:6px 0}.agentNameRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.agentInfoDetails>summary,.agentStatusDetails>summary{padding:0!important;display:flex;align-items:center;gap:6px;width:max-content;max-width:100%}.agentInfoDetails>summary:hover .name,.agentStatusDetails>summary:hover .inlineAgentStatus{text-decoration:underline;text-decoration-color:#536176}.agentInfoDetails .arrow,.agentStatusDetails .arrow{font-size:11px;width:auto}.inlineAgentStatus{font-size:13px;font-weight:700}.agentInfoPanel,.agentActivityPanel{margin-top:9px;padding:9px 10px;border:1px solid #283242;border-radius:9px;background:#111722}.agentInfoPanel{min-width:320px;max-width:720px}.agentActivityPanel{min-width:300px;max-width:720px}.agentActivityPanel .activityStatus{font-weight:700;margin-bottom:6px}.agentActivityPanel .feed,.agentInfoPanel .feed{max-height:240px;padding:4px 0}.agentActivityPanel .evt,.agentInfoPanel .evt{padding:6px 0}.offline{color:#ff8585}@media(max-width:520px){body{padding:10px}.connectivityGrid{grid-template-columns:1fr}.connection .facts{font-size:12px}}.taskFacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 12px}.taskFact{min-width:0;padding:10px;background:#111722;border:1px solid #283242;border-radius:8px;overflow-wrap:anywhere}.taskFact b{display:block;margin-bottom:4px;color:#e9eef7}.taskSource{font-size:11px;color:#8090a7;margin-top:6px}.contextLinks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.contextLinks a{color:#9ec8ff;overflow-wrap:anywhere}.contextLinks a:focus-visible,summary:focus-visible{outline:2px solid #9ec8ff;outline-offset:2px}.titleWrap{min-width:0;overflow-wrap:anywhere}.summaryLine .state{flex-shrink:0}@media(max-width:520px){.taskFacts{grid-template-columns:1fr}.item .detail{padding-left:14px}.summaryLine{flex-wrap:wrap}.summaryLine .state{margin-left:22px}.agentInfoPanel,.agentActivityPanel{min-width:0}}@media(max-width:760px){#agents{gap:14px;grid-auto-rows:max-content}.agentCard[data-agent="lenochka"],.agentCard[data-agent="klavdia"],.agentCard[data-agent="tolik"]{grid-row:auto}.agentCard[data-agent="tolik"]{order:1}.agentCard[data-agent="lenochka"]{order:2}.agentCard[data-agent="klavdia"]{order:3}.lenochkaTitleRow{flex-wrap:wrap}}
+#mobileStatusBar{display:none}
+@media(max-width:760px){
+  html{background:#0f1218}
+  body{padding:calc(10px + env(safe-area-inset-top)) 10px calc(16px + env(safe-area-inset-bottom));font-size:15px}
+  h1{font-size:20px;line-height:1.15}
+  .top{margin-bottom:10px}
+  .top>.stats{width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;padding-bottom:3px;scrollbar-width:none}
+  .top>.stats::-webkit-scrollbar{display:none}
+  .pill{flex:0 0 auto;padding:7px 10px;font-size:12px}
+  #mobileStatusBar{display:flex;position:sticky;top:0;z-index:50;margin:0 -10px 10px;padding:8px 10px;gap:7px;overflow-x:auto;background:rgba(15,18,24,.96);backdrop-filter:blur(10px);border-top:1px solid #202735;border-bottom:1px solid #2a3444;scrollbar-width:none}
+  #mobileStatusBar::-webkit-scrollbar{display:none}
+  .mobileChip{flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;background:#171c25;border:1px solid #2a3444;font-size:12px;font-weight:700;white-space:nowrap}
+  .mobileChip.work{color:#86e3a8}.mobileChip.block{color:#ffd27a}.mobileChip.bad{color:#ff9da6}.mobileChip.wait{color:#b9c3d1}
+  .section{margin-top:10px}
+  .sectionTitle{font-size:15px;margin-bottom:6px}
+  .connectivityGrid{grid-template-columns:1fr;gap:7px}
+  .connection{padding:9px 10px}
+  .connectionHeader .sub{font-size:11px}
+  .dutyWrap{padding:11px 12px}.dutyName{font-size:16px}.dutyNow{font-size:13px}.dutyFront{font-size:11px;overflow-wrap:anywhere}.dutyMeta{font-size:11px;gap:8px}
+  #agents{grid-template-columns:1fr;gap:10px;grid-auto-rows:max-content}
+  .agentCard[data-agent="klavdia"]{order:1;grid-column:1;grid-row:auto}
+  .agentCard[data-agent="lenochka"]{order:2;grid-column:1;grid-row:auto}
+  .agentCard[data-agent="tolik"]{order:3;grid-column:1;grid-row:auto}
+  .card{border-radius:12px}.cardHead{padding:11px 12px}.name{font-size:18px}
+  .agentCard .status{font-size:17px}.agentCard .current{padding:9px 10px}.agentCard .now{padding:8px 9px;font-size:13px}.next{font-size:13px}
+  .lenochkaTitleRow{gap:8px;flex-wrap:wrap}.lenochkaStrip{gap:5px}.miniIndicator summary{font-size:12px}
+  .miniIndicator .miniDetail{min-width:0;max-width:100%;width:calc(100vw - 42px)}
+  .grid.section{grid-template-columns:1fr;gap:10px}
+  .list{max-height:none}
+  summary{padding:11px 10px;min-height:44px}
+  .summaryLine{gap:7px}.id{font-size:11px}.human{font-size:14px;line-height:1.3}.state{font-size:11px;padding:4px 7px}
+  .detail{padding:0 10px 11px 28px;font-size:12px}.taskFacts{grid-template-columns:1fr;gap:7px}.taskFact{padding:8px}
+  .agentInfoPanel,.agentActivityPanel{min-width:0;max-width:100%}
+  .sub{font-size:12px}
+}
 </style>
-</head>
-<body>
-<div class="wrap">
-<header><div><h1>ООО «ООО»</h1><div class="sub">Операционная панель состояния</div></div><button id="refresh">Обновить</button></header>
-<div id="app"><div class="banner"><strong>Загрузка…</strong></div></div>
-<footer>Автообновление каждые 10 секунд · управление расписаниями защищено PIN · без содержимого писем и документов</footer>
-</div>
-<script>
-var RU={HEALTHY:"Норма",ATTENTION:"Требует внимания",DEGRADED_LOCAL:"Локальный контур недоступен",RUNNING:"В работе",WAITING_USER:"Ждёт Василия",WAITING_LOCAL_DEPENDENCY:"Ждёт компьютер",FAILED:"Ошибка",UNCERTAIN:"Нужна сверка",DONE:"Завершено"};
-function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;","\\\"":"&quot;","'":"&#39;"}[m]})}
-function fmt(t){return t?new Intl.DateTimeFormat("ru-RU",{timeZone:"Asia/Jerusalem",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(new Date(t)):"—"}
-function cls(code){
- if(["HEALTHY","ONLINE_IDLE","IDLE_READY","ACTIVE","DONE"].indexOf(code)>=0)return"good";
- if(["FAILED","ERROR","EXPIRED","OFFLINE","ATTENTION"].indexOf(code)>=0)return"bad";
- if(["WAITING_USER","WAITING_LOCAL","WAITING_LOCAL_DEPENDENCY","RENEW_DUE","NOT_CONFIGURED"].indexOf(code)>=0)return"warn";
- return"info";
-}
-function progressText(p){return p && Number.isFinite(p.percent)?p.percent+'% · закрыто '+p.closed_weight+' из '+p.total_weight:'не рассчитан';}
+<style id="quota-v2-style">
+#quotaCard .quotaWrap{padding:14px 16px} #quotaCard .quotaHead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#quotaCard .quotaTitle{font-size:22px;font-weight:800} #quotaCard .quotaFresh{font-size:14px;font-weight:750;padding:5px 9px;border-radius:999px;border:1px solid #394351}
+#quotaCard .quotaMeters{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:14px}
+#quotaCard .quotaLabel{font-size:18px;font-weight:800} #quotaCard .quotaPct{font-size:26px;font-weight:900;margin-left:10px}
+#quotaCard .segments{display:flex;gap:6px;margin-top:8px} #quotaCard .seg{height:22px;flex:1;border-radius:3px;background:#2a3444;border:1px solid #46546a}
+#quotaCard .seg.on{background:#d8e5f7} #quotaCard .quotaReset{font-size:14px;color:#aab4c3;margin-top:7px}
+#quotaCard .quotaDetails{border-top:1px solid #283242;margin-top:14px} #quotaCard .quotaDetails summary{font-size:15px;font-weight:750;color:#9ec8ff;padding:11px 0 5px}
+#quotaCard .quotaDetailBody{padding:6px 0 2px;color:#b9c3d1;font-size:14px;line-height:1.55}
+@media(max-width:760px){#quotaCard .quotaMeters{grid-template-columns:1fr}}
 
-function shortLine(v,fallback){var s=String(v||'').replace(/\s+/g,' ').trim();if(/^[A-Za-z]:[\\/]|^\/.*\//.test(s))return fallback;return s?(s.length>86?s.slice(0,83)+'…':s):fallback;}
-function humanStatus(x){if(x.divergence_detected||x.code==='UNCERTAIN')return 'Нужна сверка статуса.';if(x.stale)return 'Данные устарели.';var a=x.availability||x.code;var states={OFFLINE:'Нет актуального пульса.',UNKNOWN:'Статус пока неизвестен.',WORKING:'Идёт работа.',RUNNING:'Идёт работа.',IDLE_READY:'Готова к работе.',ONLINE_IDLE:'Готов к работе.',WAITING_USER:'Требуется решение Василия.',NEEDS_USER:'Требуется решение Василия.',RECOVERING:'Идёт восстановление.',BLOCKED:'Работа приостановлена.',QUEUED:'Задача ожидает запуска.'};if(a==='OFFLINE'||a==='UNKNOWN')return states[a];if(x.task_state==='DONE'||x.code==='DONE')return 'Работа завершена.';return states[a]||x.label||'Статус пока неизвестен.';}
-function agentCard(title,x,extra){
- x=x||{};var w=x.work||{}, id=title==='Клавдия'?'klavdia':'tolik';
- var task=shortLine(w.current_stage||w.unit_title,'Локальная задача');
- var next=shortLine(w.next_stage,x.task_state==='DONE'?'принять результат и синхронизировать pending':x.code==='OFFLINE'?'проверить актуальность пульса':'следующий этап не указан');
- var p=w.progress, progress='';
- if(p&&Number.isFinite(p.percent)&&p.total_weight>0)progress='<div class="caption">Прогресс: '+esc(progressText(p))+'</div>';
- else if(w.current_stage)progress='<div class="caption">Этап: '+esc(shortLine(w.current_stage,'идёт работа'))+'</div>';
- else if(x.checkpoint_at)progress='<div class="caption">Есть контрольная точка</div>';
- else if((x.availability||x.code)==='WORKING')progress='<div class="caption">Прогресс: идёт работа</div>';
- var diagnostics={availability:x.availability,task_state:x.task_state,stale:x.stale,divergence_detected:x.divergence_detected,checkpoint_at:x.checkpoint_at,progress_at:x.progress_at,source:x.source,signals:x.signals,last_transition:x.last_transition};
- return '<article class="card role-card" data-role="'+id+'"><h2>'+esc(title)+' <span class="caption">· '+(id==='klavdia'?'Руководитель':'Технический исполнитель')+'</span></h2><div class="role-status"><span class="dot '+cls(x.code)+'"></span>'+esc(humanStatus(x))+'</div><div class="one-line">'+esc(task)+'</div><div class="one-line caption">Дальше: '+esc(next)+'</div>'+progress+'<details id="detail-'+id+'" class="role-detail"><summary>Подробнее</summary><div class="meta">Статус источника: '+esc(x.code)+'<br>Задача: '+esc(w.unit_title||'не указана')+'<br>Этап: '+esc(w.current_stage||'не указан')+'<br>Дальше: '+esc(w.next_stage||'не указан')+'<br>'+extra+'<br>Собственный прогресс: '+esc(progressText(w.own_progress))+'</div><pre>'+esc(JSON.stringify(diagnostics,null,2))+'</pre></details></article>';
-}
-function receptionCard(){return '<article class="card role-card" data-role="lenochka"><h2>Леночка <span class="caption">· Приёмная и координатор</span></h2><div class="role-status">Координация</div><div class="one-line">Текущее действие не опубликовано</div><div class="one-line caption">Дальше: ожидать подтверждённого обновления</div><details id="detail-lenochka" class="role-detail"><summary>Подробнее</summary><div class="meta">В canonical cloud snapshot нет reception/coordinator источника. Локальный reception-handoff и журнал результатов не подключены к этой публичной проекции. Текущее действие, heartbeat и машинный прогресс неизвестны; проценты не рассчитываются.</div></details></article>';}
+#quotaCard .quotaMain{padding:16px 18px}
+#quotaCard .quotaTop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#quotaCard .quotaName{font-size:22px;font-weight:800}
+#quotaCard .quotaFresh{font-size:14px;font-weight:750;padding:5px 9px;border:1px solid #394351;border-radius:999px}
+#quotaCard .quotaMeters{display:block;margin-top:14px}
+#quotaCard .quotaMeter{width:100%;min-width:0}#quotaCard .quotaMeter+.quotaMeter{margin-top:15px;padding-top:15px;border-top:1px solid #303846}
+#quotaCard .quotaLine{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+#quotaCard .quotaLabel{font-size:18px;font-weight:750}
+#quotaCard .quotaPct{font-size:24px;font-weight:850;white-space:nowrap}
+#quotaCard .quotaSegments{display:flex;gap:5px;margin-top:8px}
+#quotaCard .quotaSeg{height:18px;flex:1;background:#2a3444;border:1px solid #405069;border-radius:3px}
+#quotaCard .quotaSeg.on{background:#75aefc;border-color:#75aefc}
+#quotaCard .quotaReset{font-size:14px;color:#aab4c3;margin-top:7px}
+#quotaCard .quotaMore{margin-top:14px;border-top:1px solid #303846}
+#quotaCard .quotaMore summary{font-size:15px;font-weight:700;color:#9ec8ff;padding:11px 0 3px}
+#quotaCard .quotaDetail{font-size:14px;color:#b9c3d1;line-height:1.55;padding:5px 0}
 
-const ACTION_URL="https://fqznrqxucpyqyxgfrvda.supabase.co/functions/v1/ooo-dashboard-action";
-function toast(msg){
-  var old=document.getElementById("toast"); if(old) old.remove();
-  var x=document.createElement("div"); x.id="toast"; x.className="toast"; x.textContent=msg;
-  document.body.appendChild(x); setTimeout(function(){x.remove()},2600);
+#connections .quotaCompact{padding:12px;min-width:0}
+#connections .quotaCompact .quotaHead{display:flex;justify-content:space-between;gap:8px;align-items:center}
+#connections .quotaCompact .quotaHead b{font-size:14px}
+#connections .quotaCompact .quotaPctMini{font-size:14px;font-weight:800}
+#connections .quotaCompact .quotaRow{margin-top:9px}
+#connections .quotaCompact .quotaMiniLabel{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#b9c3d1}
+#connections .quotaCompact .quotaSegmentsMini{display:flex;gap:3px;margin-top:5px}
+#connections .quotaCompact .quotaSegMini{height:10px;flex:1;background:#293241;border:1px solid #405069;border-radius:2px}
+#connections .quotaCompact .quotaSegMini.on{background:#75aefc;border-color:#75aefc}
+#connections .quotaCompact .quotaFoot{margin-top:7px;font-size:11px;color:#8f9bad}
+
+@media(min-width:1101px){.connectivityGrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}}
+#connections .connection{min-height:0}
+#connections .quotaCompact{padding:9px 10px}
+#connections .quotaCompact .quotaHead{display:flex;justify-content:space-between;align-items:center;gap:6px}
+#connections .quotaCompact .quotaHead b{font-size:13px;white-space:nowrap}
+#connections .quotaCompact .quotaPctMini{font-size:13px;font-weight:800;white-space:nowrap}
+#connections .quotaCompact .quotaRows{display:grid;grid-template-columns:1fr;gap:5px;margin-top:6px}
+#connections .quotaCompact .quotaMiniLabel{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:#b9c3d1}
+#connections .quotaCompact .quotaSegmentsMini{display:flex;gap:2px;margin-top:3px}
+#connections .quotaCompact .quotaSegMini{height:7px;flex:1;background:#293241;border:1px solid #405069;border-radius:2px}
+#connections .quotaCompact .quotaSegMini.on{background:#75aefc;border-color:#75aefc}
+#connections .quotaCompact .quotaFoot{margin-top:5px;font-size:10px;color:#8f9bad;white-space:nowrap}
+
+@media(min-width:761px){
+  #connections{display:flex!important;gap:8px!important;align-items:stretch}
+  #connections>.connection{flex:1 1 0!important;width:0!important;min-width:0!important}
 }
-function getPin(){
-  var p=localStorage.getItem("oooDashboardPin")||"";
-  if(/^\d{8}$/.test(p)) return p;
-  p=prompt("Введите 8-значный PIN управления расписаниями:")||"";
-  if(!/^\d{8}$/.test(p)){toast("Нужен 8-значный PIN");return "";}
-  localStorage.setItem("oooDashboardPin",p); return p;
+#connections .quotaCompact{padding:8px 9px!important}
+#connections .quotaCompact .quotaRows{gap:3px!important;margin-top:4px!important}
+#connections .quotaCompact .quotaSegmentsMini{margin-top:2px!important}
+#connections .quotaCompact .quotaSegMini{height:6px!important}
+#connections .quotaCompact .quotaFoot{display:none}
+
+@media(min-width:761px){
+  #connections{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;align-items:stretch}
+  #connections>.connection{width:auto!important;min-width:0!important;padding:9px 10px!important}
 }
-async function action(name,payload){
-  var pin=getPin(); if(!pin) return false;
-  var r=await fetch(ACTION_URL,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign({pin:pin,action:name},payload||{}))});
-  var d={}; try{d=await r.json()}catch{}
-  if(r.status===401){localStorage.removeItem("oooDashboardPin");toast("Неверный PIN. Введите его заново.");return false;}
-  if(!r.ok){toast("Команда не выполнена: "+(d.error||("HTTP "+r.status)));return false;}
-  toast("Готово"); await load(); return true;
+#connections .connection summary{min-height:0}
+
+#connections .priorityCompact{padding:9px 10px!important}
+#connections .priorityCompact .priorityHead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#connections .priorityCompact .priorityTitle{font-size:13px;font-weight:800}
+#connections .priorityCompact .priorityBadge{font-size:12px;font-weight:800;padding:3px 7px;border-radius:999px;border:1px solid #394351;white-space:nowrap}
+#connections .priorityCompact .priorityBadge.ready{background:#182c4a;color:#9ec8ff;border-color:#274a78}
+#connections .priorityCompact .priorityBadge.blocked{background:#3a2c14;color:#ffd27a;border-color:#6a4d1b}
+#connections .priorityCompact .priorityBadge.need{background:#401d22;color:#ff9da6;border-color:#743039}
+#connections .priorityCompact .priorityBadge.idle{background:#252b35;color:#b9c3d1;border-color:#394351}
+#connections .priorityCompact .priorityNow{margin-top:7px;font-size:12px;line-height:1.35}
+#connections .priorityCompact .priorityNow b{font-size:13px}
+#connections .priorityCompact .prioritySub{margin-top:4px;font-size:11px;color:#8f9bad}
+#connections .priorityCompact .detail{font-size:12px}
+
+@media(min-width:761px){
+  #connections{width:100%!important;max-width:100%!important;overflow:hidden!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #connections>.connection{max-width:100%!important;overflow:hidden!important}
 }
-function localInputDefault(iso){
-  var d=iso?new Date(iso):new Date(Date.now()+3600000);
-  var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
-  return z.toISOString().slice(0,16);
+
+@media(min-width:761px){
+  #connections{display:grid!important;grid-template-columns:repeat(3,minmax(0,300px))!important;justify-content:start!important;gap:8px!important;width:100%!important;max-width:100%!important;overflow:visible!important}
+  #connections>.connection{width:auto!important;max-width:300px!important;min-width:0!important;overflow:hidden!important}
 }
-async function rescheduleOne(id,iso){
-  var v=prompt("Новая дата и время (ГГГГ-ММ-ДДTЧЧ:ММ):",localInputDefault(iso));
-  if(!v)return;
-  var d=new Date(v);
-  if(isNaN(d.getTime())){toast("Неверная дата");return;}
-  await action("ONE_TIME_RESCHEDULE",{task_id:id,new_time:d.toISOString()});
+
+@media(min-width:1101px){
+  #connections{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;width:100%!important;max-width:100%!important;overflow:visible!important}
+  #connections>.connection{width:auto!important;max-width:none!important;min-width:0!important;overflow:hidden!important}
 }
-async function deferRecurring(id,iso){
-  var v=prompt("Когда выполнить ближайший запуск?",localInputDefault(iso));
-  if(!v)return;
-  var d=new Date(v);
-  if(isNaN(d.getTime())){toast("Неверная дата");return;}
-  await action("RECURRING_DEFER_NEXT",{schedule_id:id,new_time:d.toISOString()});
-}
-async function toggleRecurring(id,enabled){
-  await action(enabled?"RECURRING_DISABLE":"RECURRING_ENABLE",{schedule_id:id});
-}
-async function editRecurringRule(id,kind,localTime,weekdays,priority){
-  var hhmm=String(localTime||"").slice(0,5);
-  var t=prompt("Время серии (ЧЧ:ММ):",hhmm||"10:00");
-  if(!t)return;
-  if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(t)){toast("Неверное время");return;}
-  var days=null;
-  if(kind==="WEEKLY_DAYS"){
-    var current=Array.isArray(weekdays)?weekdays.join(","):"1";
-    var raw=prompt("Дни недели через запятую: 1=Пн ... 7=Вс",current);
-    if(raw===null)return;
-    days=raw.split(",").map(function(x){return Number(x.trim())}).filter(function(x){return Number.isInteger(x)});
-    if(!days.length||days.some(function(x){return x<1||x>7})){toast("Дни должны быть от 1 до 7");return;}
-    days=Array.from(new Set(days)).sort();
+#connections .dutyCompact{padding:9px 10px!important}
+#connections .dutyCompact .dutyCompactHead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#connections .dutyCompact .dutyCompactTitle{font-size:13px;font-weight:800}
+#connections .dutyCompact .dutyCompactState{font-size:12px;font-weight:800;padding:3px 7px;border-radius:999px;border:1px solid #394351;white-space:nowrap}
+#connections .dutyCompact .dutyCompactState.working{background:#173627;color:#86e3a8;border-color:#275b3d}
+#connections .dutyCompact .dutyCompactState.idle{background:#252b35;color:#b9c3d1;border-color:#394351}
+#connections .dutyCompact .dutyCompactState.error{background:#401d22;color:#ff9da6;border-color:#743039}
+#connections .dutyCompact .dutyCompactNow{margin-top:7px;font-size:12px;line-height:1.35}
+#connections .dutyCompact .dutyCompactSub{margin-top:4px;font-size:11px;color:#8f9bad}
+#connections .dutyCompact .detail{font-size:12px}
+
+@media(min-width:761px){
+  #connections{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    grid-template-areas:
+      "pc poller manager duty"
+      "internet quota priority duty"!important;
+    gap:8px!important;
+    align-items:stretch!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow:visible!important;
   }
-  var p=prompt("Приоритет P0–P3:",priority||"P2")||"";
-  p=p.toUpperCase();
-  if(["P0","P1","P2","P3"].indexOf(p)<0){toast("Приоритет только P0–P3");return;}
-  await action("RECURRING_UPDATE_RULE",{schedule_id:id,local_time:t+":00",weekdays:days,priority:p});
+  #connections>.connection{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden!important}
+  #connections>.connection:nth-child(1){grid-area:pc!important}
+  #connections>.connection:nth-child(2){grid-area:poller!important}
+  #connections>.connection:nth-child(3){grid-area:manager!important}
+  #connections>.connection:nth-child(4){grid-area:internet!important}
+  #connections>#quotaCard{grid-area:quota!important}
+  #connections>#priorityCard{grid-area:priority!important}
+  #connections>#dutyCard{grid-area:duty!important;height:100%!important}
 }
+
+/* Mobile acceptance: keep connectivity cards readable regardless of desktop positioning. */
+@media(max-width:760px){
+  #connections{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;overflow:visible!important}
+  #connections>.connection,#connections>#quotaCard,#connections>#priorityCard,#connections>#dutyCard{grid-column:1!important;grid-row:auto!important;grid-area:auto!important;width:100%!important;max-width:100%!important;min-width:0!important;height:auto!important}
+  #connections .connection b,#connections .dutyCompactNow{overflow-wrap:anywhere;word-break:normal}
+}
+/* Accessibility: larger, higher-contrast expanded task cards */
+#queue .item>summary{font-size:17px}
+#queue .item .human{font-size:18px;font-weight:800;line-height:1.35;color:#f4f7fb}
+#queue .item .id{font-size:14px;color:#b8c7dc}
+#queue .item .state{font-size:13px;font-weight:850}
+#queue .item .detail{font-size:16px;line-height:1.5;color:#eef3f8}
+#queue .taskFacts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+#queue .taskFact{padding:12px 14px;border:1px solid #46566d;border-radius:10px;background:#202834;color:#f4f7fb}
+#queue .taskFact b{font-size:15px;color:#ffffff}
+#queue .taskFact>div,#queue .taskFact summary>div{font-size:16px;line-height:1.45;margin-top:5px}
+#queue .taskSource{font-size:14px!important;color:#c6d3e3!important}
+#queue .taskFact details,#queue details.taskFact{background:#202834}
+#queue .taskFact summary{cursor:pointer}
+#queue .contextLinks a{font-size:15px;font-weight:700;color:#a9d0ff}
+@media(max-width:900px){#queue .taskFacts{grid-template-columns:1fr}}
+
+@media(min-width:761px){
+  #connections{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    grid-template-areas:"pc poller manager duty" "internet quota priority duty"!important;
+  }
+  #connections>#dutyCard{grid-area:duty!important;display:block!important;visibility:visible!important;min-width:0!important;max-width:none!important;height:100%!important;overflow:visible!important}
+  #connections>#dutyCard .dutyCompactNow{font-size:14px!important;line-height:1.4!important}
+  #connections>#dutyCard .dutyCompactSub{font-size:13px!important;color:#d2d9e3!important}
+}
+</style>
+<style>
+/* Mobile projection of current 2026-10-08 Windows Dashboard. All visual CSS above sourced from current version, never the legacy Vercel file. */
+#mobileShell{max-width:1250px;margin:auto}
+#mobileStatusBar{display:flex;position:sticky;top:0;z-index:10;background:#0f1218ee;gap:8px;padding:9px;overflow-x:auto;border-bottom:1px solid #2a3444;scrollbar-width:none}
+#mobileStatusBar .mobileChip{border-radius:999px;background:#171c25;padding:7px 10px;border:1px solid #2a3444;white-space:nowrap;flex-shrink:0;font-size:12px}
+#reload{font-size:13px;background:#223147;border:1px solid #344760;border-radius:9px;color:#e9eef7;padding:10px 13px;cursor:pointer}
+#reload:disabled{opacity:.5}
+.liveDot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#7f8da2;margin-right:6px}
+.liveDot.good{background:#66d38b}.liveDot.warn{background:#ffb454}.liveDot.bad{background:#ff8585}
+.mobileBanner{border:1px solid #2a3444;border-radius:13px;background:#171c25;padding:13px;margin-bottom:10px}
+.kicker{font-size:12px;color:#8f9bad;text-transform:uppercase;letter-spacing:.04em}
+.primaryText{font-size:16px;font-weight:750;line-height:1.45;margin:7px 0}
+.mobileMeta{font-size:12px;color:#9eaabe;line-height:1.55}
+.statusTag{display:inline-block;font-size:12px;border:1px solid #38485c;background:#202a38;border-radius:8px;padding:4px 7px}
+.mobileLink{color:#9ec8ff}
+.mobileTable{display:grid;grid-template-columns:1fr auto;gap:8px;border-bottom:1px solid #2a3444;padding:10px 0;font-size:13px}
+.mobileTable:last-child{border:0}.mobileTable strong{font-size:14px}
+.mobileFooter{margin:18px 0;color:#8391a7;font-size:12px;line-height:1.6;text-align:center}
+.roleSub{font-size:12px;color:#8f9bad;margin-top:8px;line-height:1.5}
+.mobileStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mobileStats>div{border:1px solid #2a3444;border-radius:11px;padding:9px;text-align:center;background:#111722;min-width:0}
+.mobileStats b{font-size:22px;display:block}.mobileStats span{font-size:11px;color:#8f9bad}
+@media(max-width:760px){body{padding:calc(10px + env(safe-area-inset-top)) 10px calc(16px + env(safe-area-inset-bottom))}#mobileStatusBar{margin:0 -10px 12px;top:0}.mobileStats{grid-template-columns:repeat(3,1fr)}#agents{grid-template-columns:1fr;gap:10px}.agentCard[data-agent="klavdia"]{order:1}.agentCard[data-agent="lenochka"]{order:2}.agentCard[data-agent="tolik"]{order:3}}
+</style></head><body><main id="mobileShell">
+<div class="top"><div><h1>ООО «ООО»</h1><div class="sub">Диспетчерская · мобильная версия текущего контура</div></div><button id="reload" type="button">Обновить</button></div>
+<div id="mobileStatusBar"><span class="mobileChip">Проверяю связь…</span></div>
+<section id="system" class="mobileBanner"><div class="kicker">Состояние системы</div><div class="primaryText">Загрузка канонических данных…</div></section>
+<section id="duty" class="card section"><div class="dutyWrap"><div class="dutyTop"><span class="dutyName">Дежурный</span></div><div class="dutyNow">Проверка последних событий…</div></div></section>
+<div class="section"><h2 class="sectionTitle">Команда</h2>
+<div id="agents" class="grid">
+<div class="card agentCard" data-agent="tolik" id="agentTolik"></div>
+<div class="card agentCard" data-agent="lenochka" id="agentLenochka"></div>
+<div class="card agentCard" data-agent="klavdia" id="agentKlavdia"></div>
+</div></div>
+<div class="grid section">
+<section class="card"><div class="cardHead"><b>Задачи · локальный контур</b></div><div class="current"><div id="localCounters" class="mobileStats"></div><div id="localTasks"></div></div></section>
+<section class="card"><div class="cardHead"><b>Облачная очередь</b></div><div class="current"><div id="cloudCounters" class="mobileStats"></div><div id="cloudMeta" class="roleSub"></div></div></section>
+</div>
+<section class="card section"><div class="cardHead"><b>Связь и актуальность</b></div><div id="connection" class="current">Проверка…</div></section>
+<div class="mobileFooter">Обновляется каждые 10 секунд. Сведения берутся из Supabase и подписанных сообщений Windows. Публичная версия показывает только безопасную сводку; содержимое дел, переписку и документы здесь не публикуем.</div>
+</main>
+<script>
+(function(){
+'use strict';
+const ENDPOINT='https://fqznrqxucpyqyxgfrvda.supabase.co/functions/v1/ooo-dashboard?json=1';
+const $=id=>document.getElementById(id);
+const esc=x=>String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const when=x=>{if(!x)return 'нет данных';let d=new Date(x);return Number.isFinite(d.getTime())?new Intl.DateTimeFormat('ru-RU',{timeZone:'Asia/Jerusalem',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(d):'нет данных'};
+const minutes=x=>x?Math.max(0,Math.round((Date.now()-Date.parse(x))/60000)):null;
+const fresh=x=>x&&Number.isFinite(Date.parse(x))&&Date.now()-Date.parse(x)<180000;
+const state=x=>({DONE:'Завершено',FAILED:'Ошибка',RUNNING:'Работает',VERIFYING:'Проверяет',CLAIMED:'Принял',NEW:'Ожидает',RETRYING:'Повтор',NEEDS_USER:'Ждёт тебя',BLOCKED:'Заблокировано',CANCELLED:'Отменено',IDLE_READY:'Готова, работы нет',ONLINE_IDLE:'Онлайн, ждёт работы',WORKING:'Работает',ATTENTION:'Требует внимания',HEALTHY:'Норма',OFFLINE:'Нет связи',READY:'Связь есть',DUTY_DECIDED:'Отчёт принят',DUTY_PROCESSING:'Разбирает отчёт',PENDING_DUTY:'Ожидает отчёт',DEGRADED:'Нестабильно',WAITING_LOCAL:'Ждёт компьютер',WAITING_USER:'Ждёт Василия'})[x]||'Данные не опубликованы';
+const color=x=>['DONE','HEALTHY','READY','ONLINE_IDLE','IDLE_READY','DUTY_DECIDED'].includes(x)?'good':['ATTENTION','FAILED','OFFLINE','BLOCKED'].includes(x)?'bad':'warn';
+const dot=x=>'<span class="liveDot '+color(x)+'"></span>';
+const num=x=>Number.isInteger(x)?x:'—';
+const chip=(name,x)=>'<span class="mobileChip">'+dot(x)+' '+esc(name)+': '+esc(state(x))+'</span>';
+function role(name,status,main,next,meta){
+ return '<div class="cardHead"><div class="name">'+esc(name)+'</div><div class="status">'+dot(status)+esc(state(status))+'</div></div>'+
+ '<div class="current"><div class="now">'+esc(main)+'</div><div class="next">Дальше: '+esc(next)+'</div>'+
+ '<details class="agentExtra"><summary>Подробнее</summary><div class="detail">'+meta+'</div></details></div>';
+}
+function stat(n,label){return '<div><b>'+esc(num(n))+'</b><span>'+esc(label)+'</span></div>'}
+function view(d){
+ const l=d.local_live||{},mobile=l.version===1?l:null,di=mobile?.duty||{},local=mobile?.tolik||{},counts=local.tasks||{},cloud=d.tasks||{},k=d.klavdia||{},t=d.tolik||{};
+ const localOk=!!mobile&&fresh(mobile.observed_at)&&fresh(mobile.heartbeat_at);
+ const cloudAt=d.generated_at||null;
+ const overall=d.overall||{};
+ $('system').innerHTML='<div class="kicker">Статус системы · '+esc(when(cloudAt))+'</div><div class="primaryText">'+dot(overall.code)+esc(state(overall.code))+'</div><div class="mobileMeta">'+esc(overall.label||'Облачный источник')+(overall.detail?' · '+esc(overall.detail):'')+'</div>';
+ $('mobileStatusBar').innerHTML=chip('Система',overall.code)+chip('Дежурный',localOk?di.latest?.status:'UNKNOWN')+chip('Толик',localOk?l.node_status:'OFFLINE')+chip('Клавдия',k.code||k.availability);
+ const latest=di.latest;
+ $('duty').innerHTML='<div class="dutyWrap"><div class="dutyTop"><span class="dutyName">Дежурный</span><span class="statusTag">'+esc(!localOk?'Нет свежего сигнала':latest?state(latest.status):'Нет событий')+'</span></div>'+
+ '<div class="dutyNow">'+(localOk&&latest?'Последний отчёт: <b>'+esc(latest.task||'—')+'</b> · '+esc(state(latest.status)):'Ожидание достоверной локальной телеметрии')+'</div>'+
+ '<div class="dutyMeta"><span>Последняя приёмка: '+esc(latest&&localOk?when(latest.at):'—')+'</span><span>Ожидают разбора: '+esc(num(localOk?di.pending:null))+'</span><span>Принятых отчётов: '+esc(num(localOk?di.decided:null))+'</span></div></div>';
+ const kwork=k.work||{},kcur=kwork.current_stage||kwork.unit_title||'Подробности задачи не опубликованы';
+ $('agentKlavdia').innerHTML=role('Клавдия',k.code||k.availability,kcur,kwork.next_stage||'Ожидать нового разрешённого этапа','Последний сигнал: '+esc(when(k.last_heartbeat_at||k.progress_at||k.observed_at||d.generated_at))+'<div class="roleSub">Источник: канонический облачный статус Supabase.</div>');
+ $('agentLenochka').innerHTML=role('Леночка','UNKNOWN','Координация и контроль задач','Состояние приёмной будет добавлено после защищённой синхронизации','Свежий индивидуальный сигнал Леночки пока не опубликован облачным источником; выдуманное состояние не отображаем.');
+ const tactive=localOk?local.active:null;
+ const tMain=tactive?'Задание '+tactive.id+' · '+state(tactive.state):t.code==='WORKING'?'Исполняет облачное поручение':'Нет подтверждённого активного задания';
+ $('agentTolik').innerHTML=role('Толик',localOk?l.node_status:'OFFLINE',tMain,localOk&&di.pending>0?'Передать результат Дежурному':'Ожидать или выполнять разрешённое поручение','Последний подписанный сигнал: '+esc(when(mobile?.heartbeat_at))+'<div class="roleSub">Состояние локального исполнителя проверяем отдельно от облачной оценки.</div>');
+ $('localCounters').innerHTML=stat(localOk?counts.running:null,'В работе')+stat(localOk?counts.waiting:null,'В очереди')+stat(localOk?counts.failed:null,'Ошибки');
+ $('localTasks').innerHTML=(localOk&&Array.isArray(local.recent)?local.recent:[]).map(x=>'<div class="mobileTable"><span><strong>'+esc(x.id)+'</strong><div class="mobileMeta">'+esc(when(x.updated_at))+'</div></span><span class="statusTag">'+esc(state(x.state))+'</span></div>').join('')||'<div class="roleSub">Нет свежих данных о локальных задачах</div>';
+ $('cloudCounters').innerHTML=stat(cloud.live_running??cloud.running,'В работе')+stat(cloud.waiting_user,'Ждут тебя')+stat(cloud.failed,'Ошибки');
+ $('cloudMeta').textContent='Всего открытых: '+num(cloud.open_total)+' · завершено за 24 часа: '+num(cloud.done_24h)+'.';
+ $('connection').innerHTML='<div class="mobileTable"><span>Подписанный Windows-мост</span><b>'+esc(localOk?'Связь есть':'Нет свежего сигнала')+'</b></div>'+
+ '<div class="mobileTable"><span>Последний пульс компьютера</span><span>'+esc(when(mobile?.heartbeat_at))+'</span></div>'+
+ '<div class="mobileTable"><span>Обновление облака</span><span>'+esc(when(cloudAt))+'</span></div>'+
+ '<div class="roleSub">Если компьютер выключен или его интернет пропал, локальные показатели обозначаются устаревшими. Облачные показатели продолжают обновляться отдельно.</div>';
+}
+let busy=false;
 async function load(){
- try{
-  var r=await fetch("https://fqznrqxucpyqyxgfrvda.supabase.co/functions/v1/ooo-dashboard?json=1",{cache:"no-store"});
-  if(!r.ok)throw new Error("HTTP "+r.status);
-  var d=await r.json();
-  var recent=(d.recent||[]).map(function(x){
-    return '<div class="row"><span>'+esc(x.source)+' · '+esc(x.stage||"процесс")+'</span><span class="state">'+esc(RU[x.state]||x.state)+' · '+fmt(x.time)+'</span></div>';
-  }).join("");
-  if(!recent)recent='<div class="row"><span>Событий пока нет</span></div>';
-  var s=d.schedule||{one_time:[],recurring:[]};
-  var planned=(s.one_time||[]).map(function(x){
-    return '<div class="row"><div class="schedule-main"><div class="schedule-title">'+esc(x.title||"Разовая задача")+'</div><div class="caption">разово · '+fmt(x.scheduled_for)+'</div></div><div class="actions"><button class="mini" onclick="rescheduleOne(\''+esc(x.task_id)+'\',\''+esc(x.scheduled_for)+'\')">Перенести</button></div></div>';
-  }).concat((s.recurring||[]).map(function(x){
-    var kind=x.schedule_kind==="DAILY"?"ежедневно":"по дням недели";
-    var off=x.enabled?"":" disabled";
-    var status=x.enabled?"включено":"выключено";
-    var days=Array.isArray(x.weekdays)?x.weekdays:[];
-    return '<div class="row'+off+'"><div class="schedule-main"><div class="schedule-title">'+esc(x.title||"Повторяющаяся задача")+'</div><div class="caption">'+esc(kind)+' · '+esc(status)+' · '+esc(String(x.local_time||"").slice(0,5))+' · '+esc(x.priority||"P2")+' · следующий: '+fmt(x.next_run_at)+'</div></div><div class="actions"><button class="mini" onclick="toggleRecurring(\''+esc(x.schedule_id)+'\','+(x.enabled?"true":"false")+')">'+(x.enabled?"Выключить":"Включить")+'</button><button class="mini" onclick="editRecurringRule(\''+esc(x.schedule_id)+'\',\''+esc(x.schedule_kind)+'\',\''+esc(x.local_time||"")+'\','+JSON.stringify(days)+',\''+esc(x.priority||"P2")+'\')">Изменить серию</button>'+(x.enabled?'<button class="mini" onclick="deferRecurring(\''+esc(x.schedule_id)+'\',\''+esc(x.next_run_at)+'\')">Перенести следующий</button>':'')+'</div></div>';
-  })).join("");
-  if(!planned)planned='<div class="row"><span>Запланированных задач нет</span></div>';
-  var html='';
-  html+='<div class="banner"><div><div class="caption">Статус системы</div><strong><span class="dot '+cls(d.overall.code)+'"></span>'+esc(d.overall.label)+'</strong><div class="reason">'+esc(d.overall.detail||"")+'</div><div class="meta">Обновлено: '+fmt(d.generated_at)+'</div></div><div class="meta">Решений Василия: <b>'+d.overall.user_actions+'</b></div></div>';
-  html+='<details id="integrity-detail"><summary class="caption">Сверка источников: '+esc((d.integrity||{}).status||'неизвестно')+((d.integrity||{}).divergence_detected?' · расхождение':'')+'</summary><pre class="meta">'+esc(JSON.stringify(d.integrity||{},null,2))+'</pre></details>';
-  html+='<section class="role-stack" aria-label="Команда">';
-  html+=agentCard("Клавдия",d.klavdia,'Последняя активность: '+fmt(d.klavdia.last_activity_at));
-  html+=receptionCard();
-  html+=agentCard("Толик",d.tolik,'ПК: '+esc(d.tolik.computer||"—")+'<br>Пульс: '+fmt(d.tolik.last_heartbeat_at)+'<br>Активных локальных задач: '+d.tolik.active_handoffs);
-  html+='</section><div class="grid">';
-  html+='<div class="card"><h2>Задачи</h2><div class="big">'+d.tasks.open_total+' открыто</div>';
-  html+='<div class="stats"><div class="stat"><b>'+d.tasks.running+'</b><span>в работе</span></div><div class="stat"><b>'+d.tasks.waiting_user+'</b><span>ждут тебя</span></div><div class="stat"><b>'+d.tasks.waiting_local+'</b><span>ждут ПК</span></div></div>';
-  html+='<div class="stats"><div class="stat"><b>'+d.tasks.failed+'</b><span>ошибки</span></div><div class="stat"><b>'+d.tasks.uncertain+'</b><span>сверка</span></div><div class="stat"><b>'+d.tasks.done_24h+'</b><span>готово 24ч</span></div></div></div>';
-  html+='<div class="card"><h2>Gmail</h2><div class="caption">Статус</div><div class="big"><span class="dot '+cls(d.gmail.watch_code)+'"></span>'+esc(d.gmail.watch_label)+'</div><div class="meta">Последний push: '+fmt(d.gmail.last_push_at)+'<br>Последнее продление: '+fmt(d.gmail.last_renewed_at)+'<br>Срок подписки: '+fmt(d.gmail.expiration_at)+'</div></div>';
-  html+='</div><div class="section"><h2>Запланировано</h2>'+planned+'</div><div class="section"><h2>Последние процессы</h2>'+recent+'</div>';
-  var opened=['klavdia','lenochka','tolik'].filter(function(id){var el=document.getElementById('detail-'+id);return el&&el.open;});
-  document.getElementById("app").innerHTML=html;
-  opened.forEach(function(id){var el=document.getElementById('detail-'+id);if(el)el.open=true;});
- }catch(e){
-  document.getElementById("app").innerHTML='<div class="banner"><strong><span class="dot bad"></span>Не удалось получить состояние</strong><div class="meta">'+esc(e.message)+'</div></div>';
- }
+ if(busy)return;busy=true;$('reload').disabled=true;
+ try{const r=await fetch(ENDPOINT,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const d=await r.json();view(d)}
+ catch(e){$('system').innerHTML='<div class="kicker">Ошибка получения данных</div><div class="primaryText">'+esc(e.message||'нет связи')+'</div><div class="mobileMeta">Старые значения не следует считать актуальными. Повтори проверку.</div>';$('mobileStatusBar').textContent='Нет подтверждённой связи';}
+ finally{busy=false;$('reload').disabled=false}
 }
-document.getElementById("refresh").onclick=load;
-load();setInterval(load,10000);
-</script>
-</body>
-</html>
+$('reload').addEventListener('click',load);load();setInterval(load,10000);
+})();
+</script></body></html>
